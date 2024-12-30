@@ -1,4 +1,5 @@
 class Product < ApplicationRecord
+  include Notifications
     has_many :subscribers, dependent: :destroy
     has_one_attached :featured_image
     has_rich_text :description
@@ -9,7 +10,7 @@ class Product < ApplicationRecord
     def back_in_stock?
       inventory_count_previously_was.zero? && inventory_count > 0
     end
-  
+
     def notify_subscribers
       subscribers.each do |subscriber|
         ProductMailer.with(product: self, subscriber: subscriber).in_stock.deliver_later
