@@ -1,13 +1,44 @@
-<h1>Products</h1>
-<h1><%= t ".title" %></h1>
-<h1>5:30</h1>
-<%= link_to "New product", new_product_path if authenticated? %>
-<%= link_to "Login", new_session_path unless authenticated? %>
+# <h1><%= t ".title" %></h1>
+# <%= link_to "New product", new_product_path if authenticated? %>
+# <%= link_to "Login", new_session_path unless authenticated? %>
 
-<div id="products">
-  <% @products.each do |product| %>
-    <div>
-      <%= link_to product.name, product %>
-    </div>
-  <% end %>
-</div>
+# <div id="products">
+#   <% @products.each do |product| %>
+#     <div>
+#       <%= link_to product.name, product %>
+#     </div>
+#   <% end %>
+# </div>
+<h1>Product List</h1>
+
+<%= link_to 'Add New Product', new_product_path, class: 'btn btn-primary' %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Inventory</th>
+      <th>IMG</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= link_to product.name, product_path(product) %></td>
+        <td><%= product.description %></td>
+        <td><%= product.inventory_count %></td>
+        <td>
+            <%= link_to product_path(product) do %>
+              <%= image_tag(product.featured_image, class: "product-image") if product.featured_image.present? %>
+            <% end %>
+        </td>
+        <td>
+          <%= link_to 'Edit', edit_product_path(product), class: 'btn btn-warning' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
